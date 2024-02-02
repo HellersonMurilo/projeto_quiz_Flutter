@@ -28,7 +28,7 @@ class _QuizScreenState extends State<QuizScreen> {
             child: Center(
               child: Text(
                 questions[currentQuestionIndex],
-                style: TextStyle(color: Colors.white, fontSize: 24.0),
+                style: TextStyle(color: Colors.white, fontSize: 24.0), textAlign: TextAlign.center,
               ),
             ),
           ),
