@@ -9,7 +9,13 @@ class QuizScreen extends StatefulWidget {
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  String name = 'Murilo';
+  List<Widget> iconScore = [];
+  List<String> questions = [
+    "Dark Souls é o melhor jogo?",
+    "Vendrick é o vilão de Dark Souls 2?",
+    "Solaire é o melhor NPC de Dark Souls?"
+  ];
+  int currentQuestionIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +26,7 @@ class _QuizScreenState extends State<QuizScreen> {
             flex: 1,
             child: Center(
               child: Text(
-                "Dark Souls é o melhor jogo?",
+                questions[currentQuestionIndex],
                 style: TextStyle(color: Colors.white, fontSize: 24.0),
               ),
             ),
@@ -29,7 +35,17 @@ class _QuizScreenState extends State<QuizScreen> {
           Padding(
             padding: EdgeInsets.all(16.0),
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  if (iconScore.length <= 15) {
+                    iconScore.add(Icon(
+                      Icons.check,
+                      color: Colors.green,
+                    ));
+                  }
+                  nextQuestion();
+                });
+              },
               child: Text(
                 "True",
                 style: TextStyle(color: Colors.white, fontSize: 21.0),
@@ -42,9 +58,19 @@ class _QuizScreenState extends State<QuizScreen> {
           ),
           // *** BOTAO FALSE ***
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  if (iconScore.length <= 15) {
+                    iconScore.add(Icon(
+                      Icons.cancel,
+                      color: Colors.red,
+                    ));
+                  }
+                  nextQuestion();
+                });
+              },
               child: Text(
                 "False",
                 style: TextStyle(color: Colors.white, fontSize: 21.0),
@@ -56,76 +82,24 @@ class _QuizScreenState extends State<QuizScreen> {
           ),
           // *** ICONS ***
           Row(
-            children: [
-              Icon(
-                Icons.check,
-                color: Colors.green,
-              ),
-              Icon(
-                Icons.close,
-                color: Colors.red,
-              ),
-              Icon(
-                Icons.check,
-                color: Colors.green,
-              ),
-              Icon(
-                Icons.close,
-                color: Colors.red,
-              ),
-              Icon(
-                Icons.check,
-                color: Colors.green,
-              ),
-              Icon(
-                Icons.close,
-                color: Colors.red,
-              ),
-              Icon(
-                Icons.check,
-                color: Colors.green,
-              ),
-              Icon(
-                Icons.close,
-                color: Colors.red,
-              ),
-              Icon(
-                Icons.check,
-                color: Colors.green,
-              ),
-              Icon(
-                Icons.close,
-                color: Colors.red,
-              ),
-              Icon(
-                Icons.check,
-                color: Colors.green,
-              ),
-              Icon(
-                Icons.close,
-                color: Colors.red,
-              ),
-              Icon(
-                Icons.check,
-                color: Colors.green,
-              ),
-              Icon(
-                Icons.close,
-                color: Colors.red,
-              ),
-              Icon(
-                Icons.check,
-                color: Colors.green,
-              ),
-              Icon(
-                Icons.close,
-                color: Colors.red,
-              )
-            ],
+            children: iconScore,
           )
         ],
       ),
       backgroundColor: Colors.black,
     );
+  }
+
+  void nextQuestion() {
+    if (currentQuestionIndex < questions.length - 1) {
+      setState(() {
+        currentQuestionIndex++;
+      });
+    } else {
+      questions.add("Game Finalizado 😁✌️");
+      setState(() {
+        currentQuestionIndex++;
+      });
+    }
   }
 }
