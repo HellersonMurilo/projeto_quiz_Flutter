@@ -14,6 +14,7 @@ class _QuizScreenState extends State<QuizScreen> {
     "Dark Souls é o melhor jogo?",
     "Vendrick é o vilão de Dark Souls 2?",
     "Solaire é o melhor NPC de Dark Souls?"
+    //e por aki adiciono mais perguntas
   ];
   int currentQuestionIndex = 0;
 
