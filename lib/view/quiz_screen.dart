@@ -1,5 +1,7 @@
 // comando STF criou isso
 import 'package:flutter/material.dart';
+import 'package:projeto_quiz/data/question_data.dart';
+import 'package:projeto_quiz/models/question.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
@@ -10,13 +12,9 @@ class QuizScreen extends StatefulWidget {
 
 class _QuizScreenState extends State<QuizScreen> {
   List<Widget> iconScore = [];
-  List<String> questions = [
-    "Dark Souls é o melhor jogo?",
-    "Vendrick é o vilão de Dark Souls 2?",
-    "Solaire é o melhor NPC de Dark Souls?"
-    //e por aki adiciono mais perguntas
-  ];
+
   int currentQuestionIndex = 0;
+  bool iwentClicked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +25,9 @@ class _QuizScreenState extends State<QuizScreen> {
             flex: 1,
             child: Center(
               child: Text(
-                questions[currentQuestionIndex],
-                style: TextStyle(color: Colors.white, fontSize: 24.0), textAlign: TextAlign.center,
+                questions[currentQuestionIndex].questionText,
+                style: TextStyle(color: Colors.white, fontSize: 24.0),
+                textAlign: TextAlign.center,
               ),
             ),
           ),
@@ -37,12 +36,21 @@ class _QuizScreenState extends State<QuizScreen> {
             padding: EdgeInsets.all(16.0),
             child: TextButton(
               onPressed: () {
+                iwentClicked = true;
                 setState(() {
-                  if (iconScore.length <= 15) {
-                    iconScore.add(Icon(
-                      Icons.check,
-                      color: Colors.green,
-                    ));
+                  if (iconScore.length <= questions.length) {
+                    if (questions[currentQuestionIndex].questionAnswer &
+                        iwentClicked) {
+                      iconScore.add(Icon(
+                        Icons.check,
+                        color: Colors.green,
+                      ));
+                    } else {
+                      iconScore.add(Icon(
+                        Icons.cancel,
+                        color: Colors.red,
+                      ));
+                    }
                   }
                   nextQuestion();
                 });
@@ -63,11 +71,19 @@ class _QuizScreenState extends State<QuizScreen> {
             child: TextButton(
               onPressed: () {
                 setState(() {
-                  if (iconScore.length <= 15) {
-                    iconScore.add(Icon(
-                      Icons.cancel,
-                      color: Colors.red,
-                    ));
+                  if (iconScore.length <= questions.length) {
+                    if (questions[currentQuestionIndex].questionAnswer ==
+                        false) {
+                      iconScore.add(Icon(
+                        Icons.check,
+                        color: Colors.green,
+                      ));
+                    } else {
+                      iconScore.add(Icon(
+                        Icons.cancel,
+                        color: Colors.red,
+                      ));
+                    }
                   }
                   nextQuestion();
                 });
@@ -93,14 +109,11 @@ class _QuizScreenState extends State<QuizScreen> {
 
   void nextQuestion() {
     if (currentQuestionIndex < questions.length - 1) {
-      setState(() {
-        currentQuestionIndex++;
-      });
+      currentQuestionIndex++;
     } else {
-      questions.add("Game Finalizado 😁✌️");
-      setState(() {
-        currentQuestionIndex++;
-      });
+      questions.add(
+          Question(questionText: "Game FInalizado👾🎮", questionAnswer: true));
     }
   }
+
 }
