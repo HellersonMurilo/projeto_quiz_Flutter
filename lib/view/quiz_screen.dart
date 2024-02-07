@@ -37,23 +37,7 @@ class _QuizScreenState extends State<QuizScreen> {
             child: TextButton(
               onPressed: () {
                 iwentClicked = true;
-                setState(() {
-                  if (iconScore.length <= questions.length) {
-                    if (questions[currentQuestionIndex].questionAnswer &
-                        iwentClicked) {
-                      iconScore.add(Icon(
-                        Icons.check,
-                        color: Colors.green,
-                      ));
-                    } else {
-                      iconScore.add(Icon(
-                        Icons.cancel,
-                        color: Colors.red,
-                      ));
-                    }
-                  }
-                  nextQuestion();
-                });
+                verifyAnswer();
               },
               child: Text(
                 "True",
@@ -70,23 +54,7 @@ class _QuizScreenState extends State<QuizScreen> {
             padding: const EdgeInsets.all(16.0),
             child: TextButton(
               onPressed: () {
-                setState(() {
-                  if (iconScore.length <= questions.length) {
-                    if (questions[currentQuestionIndex].questionAnswer ==
-                        false) {
-                      iconScore.add(Icon(
-                        Icons.check,
-                        color: Colors.green,
-                      ));
-                    } else {
-                      iconScore.add(Icon(
-                        Icons.cancel,
-                        color: Colors.red,
-                      ));
-                    }
-                  }
-                  nextQuestion();
-                });
+                verifyAnswer();
               },
               child: Text(
                 "False",
@@ -107,13 +75,34 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
+  // *** FUNÇÃO ProximaQuestao ***
   void nextQuestion() {
     if (currentQuestionIndex < questions.length - 1) {
       currentQuestionIndex++;
     } else {
       questions.add(
-          Question(questionText: "Game FInalizado👾🎮", questionAnswer: true));
+          Question(questionText: "Game Finalizado👾🎮", questionAnswer: true));
     }
   }
 
+  // *** FUNÇÃO ProximaQuestao ***
+  void verifyAnswer() {
+    setState(() {
+      if (iconScore.length <= questions.length) {
+        if (questions[currentQuestionIndex].questionAnswer == iwentClicked) {
+          iconScore.add(Icon(
+            Icons.check,
+            color: Colors.green,
+          ));
+        } else {
+          iconScore.add(Icon(
+            Icons.cancel,
+            color: Colors.red,
+          ));
+        }
+      }
+      iwentClicked = false;
+      nextQuestion();
+    });
+  }
 }
